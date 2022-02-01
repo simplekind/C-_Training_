@@ -301,6 +301,20 @@ void invert(link<t> root){
 	invert(root->r);
 }
 
+//LCA -> Lowest Common Ancestor : For 2 given nodes , there are many common ancestors , LCA is Lowest of all of common ancestors
+template<typename t>
+link<t> lca (link<t> root, link<t> p, link<t> q){
+	if(root==null) return root;
+	if(root==p) return p;
+	if(root==q) return q;
+	link<t> a = lca(root->l,p,q);
+	if((a!=null && (a!=p && a!=q))) return a;
+	link<t> b = lca(root->r,p,q);
+	if(a==null) return b;
+	if(b==null) return a;
+	return root;
+}
+
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
 	link<int> rootl  = new node<int> (4,null,null);
@@ -343,10 +357,11 @@ void solve(){
 //	deb (getSizeIt(root));	
 //	deb(diam(root)) ;
 ////	deb(diamDP(root)) ;
-//	inorderIndentPrint<int>(root,0);
+	inorderIndentPrint<int>(root,0);
 //	invert(root);
-//	cout<<endln<<endln<<endln<<endln;
+	cout<<endln<<endln<<endln<<endln;
 //	inorderIndentPrint<int>(root,0);
+	cout<<lca(root,rootlll,rootrlr)->item;
 }
 
 int main(){
