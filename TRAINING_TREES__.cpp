@@ -170,6 +170,29 @@ int getHeight(link<t> root){
 	if(root==null) return -1;
 	return max(getHeight(root->l),getHeight(root->r)) +1 ;
 }
+
+template<typename t>
+int getSizeIt(link <t> root){
+	if(root==null) return -1;
+	queue <link<t>> q;
+	q.push(root);
+	q.push(null);
+	int h = 0 ;
+	while(!q.empty() && q.front()!=null){
+		while(q.front()!=null){
+			h++;
+//			deb(q.front()->item);	
+			if(q.front()->l!=null) q.push(q.front()->l);
+			if(q.front()->r!=null) q.push(q.front()->r);
+			q.pop();
+		}
+//		cout<<endln;
+		q.pop();
+		q.push(null);
+	}
+	return h;
+}
+
 // depth of node is no.of edges from root to node
 // depth of tree is depth of bottomost leaf node which is same as height of tree
 
@@ -177,7 +200,7 @@ int getHeight(link<t> root){
 
 void printNode(char x,int h){
 	fli(i,0,h) cout<<"	 ";
-	cout<<x<<endln;
+	cout<<(((int)x)==46?-1:x)<<endln;
 }
 
 template<typename t>
@@ -222,6 +245,62 @@ link<char> parseTree(char *a){
 	return parseTreeHelper(a,i);
 }
 
+// for ques based on leaf nodes , use the fact they have both left and right child as null
+// for ques based on full nodes , use the fact they have both non empty nodes
+// for ques based on half nodes , use the fact they have either of nodes null but not both
+
+// DIAMETER OF A TREE-> longest path between 2 nodes of a tree 
+// O(n^2)
+template<typename t>
+int diam(link<t> root){
+	if(root==null) return 0;
+	int lD = diam(root->l);
+	int rD = diam(root->r);
+	int lH = getHeight(root->l);
+	int rH = getHeight(root->r);
+	return max(lD,max(lH+rH+2,rD));
+}
+
+// using DP in O(n)
+template<typename t>
+int getHeight(link<t> root,map<link<t>,int>& dp){
+    if(root==null) return -1;
+    int ans = max(getHeight(root->l,dp),getHeight(root->r,dp)) +1 ;
+    dp[root] =ans;
+    return ans;
+}
+
+template<typename t>
+int helper(link<t> root,map<link<t>,int>& dp){
+    if(root==null) return 0;
+    int lD = helper(root->l,dp);
+    int rD = helper(root->r,dp);
+    int lH ,rH;
+    lH=rH=-1;
+    if(root->l!=null) lH = dp[root->l];
+    if(root->r!=null)rH = dp[root->r];
+    return max(lD,max(lH+rH+2,rD));
+}
+
+template<typename t>
+int diamDP(link<t> root) {
+    if(root==null) return 0;
+    int count = 0;
+    map<link<t>,int> dp ;
+    getHeight(root,dp);
+    return helper(root,dp);
+}
+
+template<typename t>
+void invert(link<t> root){
+	if(root==null) return ;
+	link<t> temp = root->l ;
+	root->l = root->r;
+	root->r= temp ;
+	invert(root->l);
+	invert(root->r);
+}
+
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
 	link<int> rootl  = new node<int> (4,null,null);
@@ -258,9 +337,16 @@ void solve(){
 //	int arr [] = {1,13,16,12,5};
 //	link<int> Node = dnc<int>(arr,0,4);
 //	inorderIndentPrint(Node,0);
-	char arr [] = {'*','+','a','*','*','b','c','+','d','e','f'};
-	link<char> Node = parseTree(arr);
-	inorderIndentPrint(Node,0);
+//	char arr [] = {'*','+','a','*','*','b','c','+','d','e','f'};
+//	link<char> Node = parseTree(arr);
+//	inorderIndentPrint(root,0);
+//	deb (getSizeIt(root));	
+//	deb(diam(root)) ;
+////	deb(diamDP(root)) ;
+//	inorderIndentPrint<int>(root,0);
+//	invert(root);
+//	cout<<endln<<endln<<endln<<endln;
+//	inorderIndentPrint<int>(root,0);
 }
 
 int main(){
