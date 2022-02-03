@@ -325,7 +325,7 @@ int maxSum2Darr(int** arr, int r , int c){
 //	Solution :- 
 //	Lets put a mask on these bits :- 
 //	c3	c2	c1	 as 1/0 1/0 1/0 giving us 8 possibilities 
-//	such that if there are n bits and m bits are 1's then that means n-m persons are given to canides and left over candie's number is represented by 0
+//	such that if there are n bits ,and m bits are 1's then that means n-m persons are given to canides and left over candie's number is represented by 0
 //	So here we would be fousing on left over 0's to see that the position(lets say i) at which bit is 0 meaning Ci and we have to check if Ci can be given to (n-m+1)th person or not ,
 //	if yes , then we will increment count for that particular bitset by filling 1 at ith bit . Or we can say the ans will be same as count for that particular bitset by filling 1 at ith bit
 //	And what it suggests:-
@@ -365,10 +365,10 @@ void candySolve(){
 	
 	int * dp = new int [1<<n] ;	// size of 1000 = 8
 	fli(i,0,(1<<n)-1) dp[i] =0;
-	dp[(1<<n)-1] = 1 ;
+	dp[(1<<n)-1] = 1 ; // 111 is a possibility of giving all candies to all of them and so 1
 	
 	fld(i,((1<<n)-2),0){
-		int person_id=0;
+//		int person_id=0;
 //		 counting no. of 1's in our bitmask (i)
 //		int temp = i;
 //		fli(j,0,n){
@@ -378,10 +378,24 @@ void candySolve(){
 //		}
 
 //		ALT
-		person_id = __builtin_popcount(i);	// counts in log(n)
-		fli(j,0,n){
-			if(arr[person_id][j] && !((1<<j)&i))
-				dp[i]+=dp[ i | (1<<j) ] ;
+//		person_id = __builtin_popcount(i);	// counts in log(n)
+//		fli(j,0,n){
+//			if(arr[person_id][j] && !((1<<j)&i))
+//				dp[i]+=dp[ i | (1<<j) ] ;
+//		}
+	// Rewriting code for practice
+		// no. of zeroes say person id so
+		int pid = 0;
+		int j = 1;
+		while(j<i){
+			if(!(i&j)) pid++;
+			j = j<<1;
+		}
+		// now check if at unset bit u cann allocate that candy to person or not
+		fli(k,0,n){
+			// p likes candy  and that bit is unset
+			if(  arr[pid][k]   && !((1<<k)&i)     )
+				dp[i]+=dp[(1<<k)|i] ;
 		}
 	}
 	cout<<dp[0]<<endln;
@@ -402,6 +416,12 @@ int knapsackRec(vector <int> wts,vector <int> cost, int w, int i ){
 		return max(cost[i]+knapsackRec(wts,cost,w-wts[i],i-1),knapsackRec(wts,cost,w,i-1)) ;
 	else
 		return knapsackRec(wts,cost,w,i-1) ;
+}
+
+int ** newArr(int n,int m){
+	int ** arr = new int* [n] ;
+	fli(i,0,m) arr[i] = new int [m];
+	return arr ;
 }
 
 // 0/1 Knapsacks ( The logic of code is almost same as Coin prob )
@@ -425,13 +445,6 @@ int knapsackRecmemHelper(int**arr, vector <int> wts,vector <int> cost, int w, in
 		return ans ;
 	}
 } 
-
-int ** newArr(int n,int m){
-	int ** arr = new int* [n] ;
-	fli(i,0,m) arr[i] = new int [m];
-	return arr ;
-}
-
 
 int knapsackMemo(vector <int> wts,vector <int> cost, int w, int i ){
 	int** arr = newArr(wts.size()+1,100) ;
@@ -563,8 +576,8 @@ int main(){
 //	candySolve();
 	int n ;cin>>n;vector<int> wts (n);fli(i,0,n)cin>>wts[i];
 	vector<int> cost (n);fli(i,0,n)cin>>cost[i];
-//	cout<< knapsackRec(wts,cost,50,n-1)<<endln ;
-//	cout<< knapsackMemo(wts,cost,50,n-1)<<endln ;	
+	cout<< knapsackRec(wts,cost,50,n-1)<<endln ;
+	cout<< knapsackMemo(wts,cost,50,n-1)<<endln ;	
 	cout<< knapsackIt(wts,cost,50)<<endln ;		
 	return 0;
 }
