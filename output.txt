@@ -1,0 +1,7 @@
+i = 2
+w = 50
+"calling new func ... " = calling new func ... 
+ans = 220
+i = 2
+w = 50
+220

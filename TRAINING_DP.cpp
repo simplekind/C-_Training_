@@ -25,8 +25,20 @@
 #define for_it(v,it) for (auto it= v.begin(); it!=v.end();it++)
 #define deb(x) cout << #x << " = " << x << endl
 #define endln '\n'
-const int m = 1000000007;
+#define vt vector
+
 using namespace std;
+
+typedef pair<int, int>	pii;
+typedef pair<ll, ll>	pl;
+typedef vector<int>		vi;
+typedef vector<ll>		vl;
+typedef vector<pii>		vpii;
+typedef vector<pl>		vpl;
+typedef vector<vi>		vvi;
+typedef vector<vl>		vvl;
+
+const int m = 1000000007;
 
 // A common misconception to clear is that using DP doesnt mean that we are using array all the tim3
 // DP basically means to use prev result to calculate next result , 
@@ -418,14 +430,26 @@ int knapsackRec(vector <int> wts,vector <int> cost, int w, int i ){
 		return knapsackRec(wts,cost,w,i-1) ;
 }
 
-int ** newArr(int n,int m){
-	int ** arr = new int* [n] ;
-	fli(i,0,m) arr[i] = new int [m];
-	return arr ;
-}
-
 // 0/1 Knapsacks ( The logic of code is almost same as Coin prob )
 // 2) Memoization O(n^2)
+// lets say 
+// wt   : 1 1 1 
+// cost : 3 2 1
+// bag wt : 3
+// i=2								    ( 3 )
+//								5+1               5
+//							 /					    \
+// i=1					(	2	)				(	 3    )
+//					  3+2        3             3+2        3
+//					 /            \            /           \
+// i=0			(	1	)		(  2   )  	( 2 )		(	3  )
+//	            0+3     0       0+3    0                 0+3     0
+//  	       /         \      /       \               /         \
+// i=-1    	  (0)		(1)   (1)       (2)           (2)         (3)    				 
+//
+// Notice how in right sub tree we dont need to call left and right part again of (2) coz we already evaulated that 
+// for the i=0 and wt 2 and will res same as 3
+
 int knapsackRecmemHelper(int**arr, vector <int> wts,vector <int> cost, int w, int i ){
 	// Base Case
 	if(i<0 || w<0){
@@ -445,6 +469,13 @@ int knapsackRecmemHelper(int**arr, vector <int> wts,vector <int> cost, int w, in
 		return ans ;
 	}
 } 
+
+int ** newArr(int n,int m){
+	int ** arr = new int* [n] ;
+	fli(i,0,m) arr[i] = new int [m];
+	return arr ;
+}
+
 
 int knapsackMemo(vector <int> wts,vector <int> cost, int w, int i ){
 	int** arr = newArr(wts.size()+1,100) ;
@@ -473,6 +504,12 @@ int knapsackIt(vector <int> wts,vector <int> cost, int w){
 	int ans= dp[wts.size()][w];
 	return ans ;
 }
+
+// Unboundec Knapsack 
+int unboundedKnapsack (vi cost{
+	if(!cost.size())
+}
+
 
 int main(){ 
 	
@@ -573,11 +610,11 @@ int main(){
 //	
 //	cout<<maxSum2Darr(arr,4,5) ;
 	
-//	candySolve();
-	int n ;cin>>n;vector<int> wts (n);fli(i,0,n)cin>>wts[i];
-	vector<int> cost (n);fli(i,0,n)cin>>cost[i];
-	cout<< knapsackRec(wts,cost,50,n-1)<<endln ;
-	cout<< knapsackMemo(wts,cost,50,n-1)<<endln ;	
-	cout<< knapsackIt(wts,cost,50)<<endln ;		
+	candySolve();
+//	int n ;cin>>n;vector<int> wts (n);fli(i,0,n)cin>>wts[i];
+//	vector<int> cost (n);fli(i,0,n)cin>>cost[i];
+////	cout<< knapsackRec(wts,cost,50,n-1)<<endln ;
+////	cout<< knapsackMemo(wts,cost,50,n-1)<<endln ;	
+//	cout<< knapsackIt(wts,cost,50)<<endln ;		
 	return 0;
 }
