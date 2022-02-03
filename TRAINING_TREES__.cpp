@@ -315,6 +315,16 @@ link<t> lca (link<t> root, link<t> p, link<t> q){
 	return root;
 }
 
+// If one of the traversal methods is Inorder then
+// the tree can be constructed uniquely, otherwise not.
+//• Inorder and Preorder
+//• Inorder and Postorder
+//• Inorder and Level-order
+
+//The following combinations do not uniquely identify a tree.
+//• Postorder and Preorder
+//• Preorder and Level-order
+//• Postorder and Level-order
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
 	link<int> rootl  = new node<int> (4,null,null);
