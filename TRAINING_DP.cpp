@@ -506,8 +506,18 @@ int knapsackIt(vector <int> wts,vector <int> cost, int w){
 }
 
 // Unboundec Knapsack 
-int unboundedKnapsack (vi cost{
-	if(!cost.size())
+int unboundedKnapsack (vi wt,vi cost,int sum){
+	if(!cost.size()) return 0 ;
+	int n = wt.size();
+	vt<vi> dp (n+1,vi(sum+1,0));
+	fli(i,1,n+1){
+		fli(j,1,sum+1){
+			if(j-wt[i-1]>=0){
+				dp[i][j] = max(cost[i-1] + dp[i][j-wt[i-1]] , dp[i-1][j] );
+			}
+		}
+	}
+	return dp[n][sum];
 }
 
 
@@ -610,11 +620,13 @@ int main(){
 //	
 //	cout<<maxSum2Darr(arr,4,5) ;
 	
-	candySolve();
+//	candySolve();
 //	int n ;cin>>n;vector<int> wts (n);fli(i,0,n)cin>>wts[i];
 //	vector<int> cost (n);fli(i,0,n)cin>>cost[i];
 ////	cout<< knapsackRec(wts,cost,50,n-1)<<endln ;
 ////	cout<< knapsackMemo(wts,cost,50,n-1)<<endln ;	
-//	cout<< knapsackIt(wts,cost,50)<<endln ;		
+//	cout<< knapsackIt(wts,cost,50)<<endln ;	
+	
+	cout<<unboundedKnapsack	({5, 10, 15} , {10, 30, 20} ,100);
 	return 0;
 }
