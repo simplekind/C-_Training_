@@ -1,7 +1,8 @@
-i = 2
-w = 50
-"calling new func ... " = calling new func ... 
-ans = 220
-i = 2
-w = 50
-220
+l->item = 5
+l->item = 4
+l->item = 8
+l->item = 2
+l->item = 6
+l->item = 1
+l->item = 3
+l->item = 7

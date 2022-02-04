@@ -43,7 +43,7 @@ const int mod = 1000000007;
 template <typename t>
 struct node {
 	t item ;
-	node* l , *r;
+	node* l , *r,*next;
 	node(t item , node*l, node*r){
 		this->item=item;
 		this->l=l;
@@ -145,14 +145,22 @@ void postOrder_It(link<t> curr){
 	}
 }
 
+
 template<typename t>
 void levelOrder(link<t> curr){
 	queue <link<t>> q  ;
 	q.push(curr) ;
 	while(!q.empty()){
-		link<t> temp = q.front();cout<<temp->item<<" ";q.pop();
-		if(temp->l!=null) q.push(temp->l);
-		if(temp->r!=null) q.push(temp->r);
+		q.push(null);
+		while(q.front()!=null){
+			link<t> temp = q.front();
+			cout<<temp->item<<" ";
+			if(temp->l!=null) q.push(temp->l);
+			if(temp->r!=null) q.push(temp->r);
+			q.pop();
+		}
+		q.pop();
+		cout<<endln;
 	}
 }
 
@@ -325,6 +333,26 @@ link<t> lca (link<t> root, link<t> p, link<t> q){
 //• Postorder and Preorder
 //• Preorder and Level-order
 //• Postorder and Level-order
+
+link<int> connect(link<int> root) {
+        queue <link<int>>  q ;
+        q.push(root);
+        link<int> l = null , r = null;
+        while(!q.empty()){
+            q.push(null);
+            while(q.front()!=null){
+                r=l;
+                l = q.front();
+                q.pop();
+                l->next=r;
+                deb(l->item);
+                if(l->l!=null) q.push(l->l);
+                if(l->r!=null) q.push(l->r);
+            }
+            q.pop();
+        }
+        return root;
+    }
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
 	link<int> rootl  = new node<int> (4,null,null);
@@ -367,11 +395,12 @@ void solve(){
 //	deb (getSizeIt(root));	
 //	deb(diam(root)) ;
 ////	deb(diamDP(root)) ;
-	inorderIndentPrint<int>(root,0);
-//	invert(root);
-	cout<<endln<<endln<<endln<<endln;
 //	inorderIndentPrint<int>(root,0);
-	cout<<lca(root,rootlll,rootrlr)->item;
+//	invert(root);
+//	cout<<endln<<endln<<endln<<endln;
+//	inorderIndentPrint<int>(root,0);
+//	cout<<lca(root,rootlll,rootrlr)->item;
+	connect(root);
 }
 
 int main(){
