@@ -1,8 +1,2 @@
-l->item = 5
-l->item = 4
-l->item = 8
-l->item = 2
-l->item = 6
-l->item = 1
-l->item = 3
-l->item = 7
+getMaxDepthKaryTree_n2(p) = 5
+getMaxDepthKaryTree_n(p) = 5

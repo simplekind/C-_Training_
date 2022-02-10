@@ -43,7 +43,7 @@ const int mod = 1000000007;
 template <typename t>
 struct node {
 	t item ;
-	node* l , *r,*next;
+	node* l , *r;
 	node(t item , node*l, node*r){
 		this->item=item;
 		this->l=l;
@@ -334,25 +334,51 @@ link<t> lca (link<t> root, link<t> p, link<t> q){
 //• Preorder and Level-order
 //• Postorder and Level-order
 
-link<int> connect(link<int> root) {
-        queue <link<int>>  q ;
-        q.push(root);
-        link<int> l = null , r = null;
-        while(!q.empty()){
-            q.push(null);
-            while(q.front()!=null){
-                r=l;
-                l = q.front();
-                q.pop();
-                l->next=r;
-                deb(l->item);
-                if(l->l!=null) q.push(l->l);
-                if(l->r!=null) q.push(l->r);
-            }
-            q.pop();
-        }
-        return root;
-    }
+//
+// 	Given a parent array P, where P[i] indicates the parent of ith node in the tree
+//	(assume parent of root node is indicated with –1). Give an algorithm for finding the height
+//	or depth of the tree.
+//
+//  Parent - child relationship:
+//		-1 	0 	1 	6 	6 	0 	0 	2 	7
+//	 	 0 	1 	2 	3 	4 	5 	6 	7 	8 
+int getMaxDepthKaryTree_n2(vi p){
+	if(!p.size()) return -1;
+	int md = -1;
+	fli(i,0,p.size()){
+		int j = i, cd = 0;
+		while(j!=-1){
+			j=p[j];cd++;
+		}
+		md= max (md,cd);
+	}
+	return md;
+}
+    
+int getMaxDepthKaryTree_n(vi p){
+	if(!p.size()) return -1;
+	int md = -1;
+	vi dp (p.size(),-1);
+	fli(i,0,p.size()){
+//		deb(i);
+		int j = i, cd = 0;
+//		deb(dp[i]);
+		if (dp[i]!=-1) 
+			cd = dp[i]+1;
+		else
+			while(j!=-1){
+				j=p[j];
+				cd++;
+			}
+		md= max (md,cd);			
+		dp[i]= md;
+//		deb(dp[i]);
+	}
+	return md ;
+}
+
+
+
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
 	link<int> rootl  = new node<int> (4,null,null);
@@ -400,7 +426,10 @@ void solve(){
 //	cout<<endln<<endln<<endln<<endln;
 //	inorderIndentPrint<int>(root,0);
 //	cout<<lca(root,rootlll,rootrlr)->item;
-	connect(root);
+//	vi p  = {-1 	,0 	,1 	,6 	,6 	,0 	,0 	,2 	,7};	
+//	deb (getMaxDepthKaryTree_n2(p));
+//	deb (getMaxDepthKaryTree_n(p));
+	
 }
 
 int main(){
