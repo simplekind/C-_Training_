@@ -1,2 +1,4 @@
-getMaxDepthKaryTree_n2(p) = 5
-getMaxDepthKaryTree_n(p) = 5
+curr->item = 5
+5
+curr->item = 8
+8

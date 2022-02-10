@@ -377,7 +377,32 @@ int getMaxDepthKaryTree_n(vi p){
 	return md ;
 }
 
-
+// morris inorder traversal
+template<typename t >
+void inOrderMorrisTrav(link<t> root){
+	if (root==null) return ;
+	link<t> curr = root;
+	while(curr!=null){
+		deb(curr->item);
+		if (curr->l!=null){
+			cout<<curr->item<<endln;
+			curr=curr->r;
+		}else{
+			//find pred
+			link<t> pred =  curr->l;
+			while(pred->r!=curr && pred->r!=null)
+				pred=pred->r;
+			if(pred->r==null){
+				pred->r=curr;
+				curr = curr->l;
+			}else{
+				pred->r=null;
+				cout<<curr->item<<endln;
+				curr=curr->r;			
+			}
+		}
+	}
+}
 
 void solve(){
 	link<int> root   = new node<int> (5,null,null);
@@ -429,7 +454,8 @@ void solve(){
 //	vi p  = {-1 	,0 	,1 	,6 	,6 	,0 	,0 	,2 	,7};	
 //	deb (getMaxDepthKaryTree_n2(p));
 //	deb (getMaxDepthKaryTree_n(p));
-	
+	inOrderMorrisTrav(root);
+//	preOrderMorrisTrav(root);
 }
 
 int main(){
