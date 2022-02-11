@@ -377,28 +377,54 @@ int getMaxDepthKaryTree_n(vi p){
 	return md ;
 }
 
+// Morris traversals follows the idea of threaded binary tree
+// here we thread right part of null node to its succesor respective traversal order node
+// or in other words the curr node is threaded by its predecesor node
 // morris inorder traversal
 template<typename t >
 void inOrderMorrisTrav(link<t> root){
 	if (root==null) return ;
-	link<t> curr = root;
+	link <t> curr = root;
 	while(curr!=null){
-		deb(curr->item);
-		if (curr->l!=null){
-			cout<<curr->item<<endln;
+		if(curr->l ==null){
+			deb(curr->item);
 			curr=curr->r;
 		}else{
-			//find pred
-			link<t> pred =  curr->l;
+			link<t> pred = curr->l;
 			while(pred->r!=curr && pred->r!=null)
 				pred=pred->r;
 			if(pred->r==null){
 				pred->r=curr;
-				curr = curr->l;
+				curr=curr->l;
 			}else{
 				pred->r=null;
-				cout<<curr->item<<endln;
-				curr=curr->r;			
+				deb(curr->item);
+				curr=curr->r;
+			}
+		}
+	}
+}
+
+// morris preorder traversal
+template<typename t >
+void preOrderMorrisTrav(link<t> root){
+	if (root==null) return ;
+	link <t> curr = root;
+	while(curr!=null){
+		if(curr->l ==null){
+			deb(curr->item);
+			curr=curr->r;
+		}else{
+			link<t> pred = curr->l;
+			while(pred->r!=curr && pred->r!=null)
+				pred=pred->r;
+			if(pred->r==null){
+				pred->r=curr;
+				deb(curr->item);
+				curr=curr->l;
+			}else{
+				pred->r=null;
+				curr=curr->r;
 			}
 		}
 	}
@@ -419,8 +445,8 @@ void solve(){
 	rootll->l=rootlll;rootll->r=rootllr;
 	rootr->l=rootrl;
 	rootrl->r=rootrlr;
-//	cout<<"preOrderTrav : ";
-//	preOrderTrav(root);cout<<endln;
+	cout<<"preOrderTrav : ";
+	preOrderTrav(root);cout<<endln;
 //	cout<<"preOrderTrav_It : ";
 //	preOrderTrav_It(root);cout<<endln;
 //	cout<<"inOrderTrav : ";
@@ -455,6 +481,7 @@ void solve(){
 //	deb (getMaxDepthKaryTree_n2(p));
 //	deb (getMaxDepthKaryTree_n(p));
 	inOrderMorrisTrav(root);
+	preOrderMorrisTrav(root);
 //	preOrderMorrisTrav(root);
 }
 
