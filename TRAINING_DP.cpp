@@ -505,7 +505,7 @@ int knapsackIt(vector <int> wts,vector <int> cost, int w){
 	return ans ;
 }
 
-// Unboundec Knapsack 
+// Unbounded Knapsack 
 int unboundedKnapsack (vi wt,vi cost,int sum){
 	if(!cost.size()) return 0 ;
 	int n = wt.size();

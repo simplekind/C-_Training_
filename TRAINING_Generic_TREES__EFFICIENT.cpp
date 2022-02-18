@@ -113,7 +113,9 @@ struct node {
 
 template< typename t>
 using link = node<t> *;
-
+//In expression trees, leaf nodes are
+//operands and non-leaf nodes are operators. That means, an expression tree is a binary tree where
+//internal nodes are operators and leaves are operands.
 void solve(){
 
 }

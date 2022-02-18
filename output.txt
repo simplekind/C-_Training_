@@ -1,17 +1,6 @@
-preOrderTrav : 5 4 2 1 3 8 6 7 
-curr->item = 1
-curr->item = 2
-curr->item = 3
-curr->item = 4
-curr->item = 5
-curr->item = 6
-curr->item = 7
-curr->item = 8
-curr->item = 5
-curr->item = 4
-curr->item = 2
-curr->item = 1
-curr->item = 3
-curr->item = 8
-curr->item = 6
-curr->item = 7
+17
+17
+2 3 + 5 * 5 - 5 / 
+4
+/ - * + 2 3 5 5 5 
+4
