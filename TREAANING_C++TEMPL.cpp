@@ -17,6 +17,7 @@
 #define inf 0x3f3f3f3f
 #define _inf 0xcfcfcfcf
 #define deb(x) cout << #x << " = " << x << endl
+#define deb2(x,y) cout << #x << " = " << x << " , "<<#y << " = " << y <<endl
 #define endln '\n'
 #define f first
 #define s second
@@ -41,11 +42,11 @@ int ** newArr(int n,int m)  ;
 const int mod = 1000000007;
 
 void solve(){
-
+	
 }
 
 int main(){
-	fastio 
+	fastio
 	#ifndef ONLINE_JUDGE
 	    freopen("input.txt", "r", stdin);
     	freopen("output.txt", "w", stdout);

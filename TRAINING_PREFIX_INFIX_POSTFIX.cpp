@@ -39,7 +39,6 @@ int mpow(int base, int exp) ;
 int ** newArr(int n,int m)  ;
 
 const int mod = 1000000007;
-
 // INFIX ->
 //	B	O		D		M	A	S
 // 	   R->L 	L->R
@@ -194,6 +193,8 @@ vt<char> infixToPrefix(vt<char> infix){
 	cout<<endln;
 	return pre;
 }
+
+// As an exercise try rest of 4 conversions
 
 void solve(){
 	vt<char> ch1 = {'2','3','*','5','4','*','+','9','-'};

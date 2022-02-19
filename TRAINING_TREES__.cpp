@@ -217,9 +217,8 @@ void inorderIndentPrint(link<t> root,int h){
 		printNode('.',h);
 		return ;
 	}
-	inorderIndentPrint(root->l,h+1);
 	printNode(root->item,h) ;
-	inorderIndentPrint(root->r,h+1);
+	inorderIndentPrint(root->l,h+1);
 }
 
 // array to tree - desiging a game of tournament using divide and conquer
@@ -461,8 +460,8 @@ void solve(){
 //	levelOrder(root);cout<<endln;
 //	deb(countNodes(root));
 //	deb(getHeight(root));
-//	cout<<"Quick tree-print function : "<<endln;
-//	inorderIndentPrint(root,0);
+	cout<<"Quick tree-print function : "<<endln;
+	inorderIndentPrint(root,0);
 //	int arr [] = {1,13,16,12,5};
 //	link<int> Node = dnc<int>(arr,0,4);
 //	inorderIndentPrint(Node,0);

@@ -116,6 +116,7 @@ using link = node<t> *;
 //In expression trees, leaf nodes are
 //operands and non-leaf nodes are operators. That means, an expression tree is a binary tree where
 //internal nodes are operators and leaves are operands.
+// it uses same binary tree with no changes in class so it is not kind of generic tree.
 void solve(){
 
 }
