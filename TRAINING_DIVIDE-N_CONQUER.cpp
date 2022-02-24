@@ -18,6 +18,7 @@
 #define cout_arr(a,n)  fli(i,0,n) cout<<a[i]<<" ";
 #define for_it(v,it) for (auto it= v.begin(); it!=v.end();it++)
 #define deb(x) cout << #x << " = " << x << endl
+#define deb2(x,y) cout << #x << " = " << x << " , "<<#y << " = " << y <<endl
 #define endln '\n'
 #define f first
 #define s second
@@ -59,7 +60,7 @@ const int mod = 1000000007;
 //// 	This is same as :- 
 //	function_to_use(solve(arr,l,m),solve(arr,m+1,r))
 //}
-// eg:- B.S , Merg n srt
+// eg:- B.S , Merg n srt , Quicksort , Closest Pair of Points
 
 
 // The divide and conquer to find the max 
@@ -72,6 +73,17 @@ item maxInArr(item* arr,int l , int r){
 	}
 	int m = l + (r-l)/2 ;
 	return max(maxInArr(arr,l,m),maxInArr(arr,m+1,r)) ;
+}
+
+// returning index
+int maxinArrIt (int * arr,int l , int r){
+	if(r<=l || r<0) return -1;
+	int maxEle = _inf,maxIndex=-1;
+	for(int size = 1 ; size <r ; size = (1<<size))
+		for (int pos = 0 ; pos<r ; pos+=(1<<size))
+			if(maxEle<=arr[pos])
+				maxEle=arr[pos],maxIndex=pos;
+	return maxIndex;
 }
 
 //DIVIDE N CONQUER FOR TOWER OF HANOI 
@@ -111,23 +123,26 @@ void tower(int& count ,int n , char start, char helper, char end){
 // More about D n C is in Merge Sort , Binary Search
 
 int main(){
-	int t ; cin >> t;
+	int t =1;
 	while(t--){
 // 		This is for eval max in int	
-//		int n ; cin>>n;
-//		int * arr = new int [n] ;
-//		fli(i,0,n) cin>>arr[i];
-//		cout<<maxInArr(arr,0,n-1)<<endln;
+		int n =32;
+		int * arr = new int [n] ;
+		srand(time(0));
+		fli(i,0,n) arr[i]= rand()%100+1;
+		fli(i,0,n) cout<<(arr[i])<<" ";	
+		cout<<endln;	
+		cout<<"at posn "<<maxinArrIt(arr,0,n-1)<<" the value is "<<arr[maxinArrIt(arr,0,n-1)]<<endln;
 //		
 // 		This is for eval max in char
 //		cin>>n;
 //		char * arrch = new char [n] ;
 //		fli(i,0,n) cin>>arrch[i];
 //		cout<<maxInArr(arrch,0,n-1);
-		int n ; cin>>n;
-		int count = 0;
-		tower(count,n,'a','b','c') ;
-		cout<<count<<endln;
+//		int n ; cin>>n;
+//		int count = 0;
+//		tower(count,n,'a','b','c') ;
+//		cout<<count<<endln;
 	}
 	return 0;
 }

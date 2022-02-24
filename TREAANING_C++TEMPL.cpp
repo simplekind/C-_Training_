@@ -41,8 +41,21 @@ int ** newArr(int n,int m)  ;
 
 const int mod = 1000000007;
 
+template <typename t> // cin>> vector<t>
+istream &operator>> (istream &istream, vt<t> &v){
+	for (auto & i : v) cin>>i;
+	return istream;
+}
+
+template <typename T> // cout << vector<t>
+ostream &operator<<(ostream &ostream, const vector<T> &c){
+	for (auto &i : c)
+		cout << i << " ";
+	return ostream;
+}
+
 void solve(){
-	
+
 }
 
 int main(){
@@ -75,3 +88,4 @@ int ** newArr(int n,int m){
 	fli(i,0,m) arr[i] = new int [m];
 	return arr ;
 }
+
