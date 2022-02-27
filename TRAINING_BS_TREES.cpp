@@ -208,7 +208,24 @@ struct node {
 		node* min(){
 			return minHelper(this);
 		}
-		
+// Actaully following one is a problem , but is good for understanding the basics of BST and inorder traversal!		
+//		Given the root of a Binary Search Tree (BST), return the minimum difference between the values of any two different nodes in the tree.
+		int minDiffInBST(TreeNode* root) {
+	        if (root==null) return 0;
+	        link next = null;
+	        int ans = INT_MAX;
+	        InorderHelper(root,next,ans);
+	        return ans ;
+	    }
+	    
+	    void InorderHelper (link root,link& prev,int & ans ){
+	        if (root==null) return ;
+	        InorderHelper(root->left,prev,ans);
+	        if (prev!=null) ans = min (ans,root->val-prev->val);
+	        prev = root;
+	        InorderHelper(root->right,prev,ans);
+	    }
+    
 		void printNode(char x,int h){
 			fli(i,0,h) cout<<"	 ";
 			cout<<((int)(x)==46?-1:x)<<endln;
@@ -232,6 +249,8 @@ struct node {
 
 // But, performing these operations on BST the height of the tree gets changed each time.
 // Hence there exists variations in time complexities of best case, average case, and worst case.
+// Worst case occurs when elements are in sorted order already
+
 
 template< typename t>
 using link = node<t> *;
