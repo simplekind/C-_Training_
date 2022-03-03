@@ -101,6 +101,11 @@ public:
     }
 };
 
+// some questions to look out for
+/// https://leetcode.com/submissions/detail/650073927/
+/// https://leetcode.com/submissions/detail/650034768/
+/// https://leetcode.com/submissions/detail/652449293/
+
 void solve(){
 
 }
