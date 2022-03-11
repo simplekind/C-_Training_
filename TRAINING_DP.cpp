@@ -520,7 +520,6 @@ int unboundedKnapsack (vi wt,vi cost,int sum){
 	return dp[n][sum];
 }
 
-
 int main(){ 
 	
 //	 yaar index represents ki iss sub problem ke liye kya ans hai !

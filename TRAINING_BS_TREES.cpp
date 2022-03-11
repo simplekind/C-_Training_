@@ -75,6 +75,7 @@ struct node {
 //	only the intermediate step (processing root data) changes
 //	and we do not touch the first and third steps.
 
+// in some problems you can convert bst to dll then process and back to dll
 	private:
 		node* searchHelper(node* head,t x){
 			if(head==null) return null;

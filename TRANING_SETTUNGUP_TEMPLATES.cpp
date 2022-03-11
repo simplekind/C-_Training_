@@ -106,37 +106,115 @@ using namespace std;
 //}// \\
 //03/01/22 11:30
 
+//template <typename t>
+//struct node {
+//	t item ;
+//	node* l , *r;
+//	node(t item , node*l, node*r){
+//		this->item=item;
+//		this->l=l;
+//		this->r=r;
+//	}
+//};
+//
+//#define null nullptr
+//template< typename t>
+//using link = node<t> *;
+//
+//template<typename t>
+//void levelOrder(link<t> curr){
+//	queue <link<t>> q  ;
+//	q.push(curr) ;
+//	while(!q.empty()){
+//		q.push(null);
+//		while(q.front()!=null){
+//			link<t> temp = q.front();
+//			cout<<temp->item<<" ";
+//			if(temp->l!=null) q.push(temp->l);
+//			if(temp->r!=null) q.push(temp->r);
+//			q.pop();
+//		}
+//		q.pop();
+//		cout<<endln;
+//	}
+//}
+
+#define null nullptr
 template <typename t>
 struct node {
 	t item ;
 	node* l , *r;
-	node(t item , node*l, node*r){
-		this->item=item;
-		this->l=l;
-		this->r=r;
-	}
+	node(t item , node*l, node*r){this->item=item;this->l=l;this->r=r;}
 };
-
-#define null nullptr
-template< typename t>
-using link = node<t> *;
+template<typename t>
+using link = node<t> * ;
 
 template<typename t>
-void levelOrder(link<t> curr){
-	queue <link<t>> q  ;
-	q.push(curr) ;
-	while(!q.empty()){
-		q.push(null);
-		while(q.front()!=null){
-			link<t> temp = q.front();
-			cout<<temp->item<<" ";
-			if(temp->l!=null) q.push(temp->l);
-			if(temp->r!=null) q.push(temp->r);
-			q.pop();
-		}
-		q.pop();
-		cout<<endln;
+link<t> searchHelper(link<t> head,t x){
+	if(head==null) return null;
+	if(head->item==x) return head;
+	else if(head->item < x ) return searchHelper(head->r,x);
+	else if(head->item > x ) return searchHelper(head->l,x);
+}
+
+template<typename t>
+link<t> insertHelper(link<t> head , t x){
+	if(head==null) {
+		link<t> curr = new node<t>(x,0,0);
+		return curr;				
 	}
+	else if(head->item<=x) {
+		head->r=insertHelper(head->r,x);
+	}else{
+		head->l=insertHelper(head->l,x);				
+	}
+	return head;			
+}
+
+template<typename t>
+void inorderHelper(link<t> head){
+	if(head==null) return;
+	inorderHelper(head->l);
+	deb(head->item);
+	inorderHelper(head->r);
+}
+
+template<typename t>
+link<t> maxHelper (link<t> head){
+	if(head==null) return null;
+	while(head->r!=null){
+		head=head->r;
+	}
+	return head;
+}
+
+template<typename t>
+link<t> minHelper (link<t> head){
+	if(head==null) return null;
+	while(head->l!=null){
+		head=head->l;
+	}
+	return head;
+}
+
+template<typename t>
+link<t> delHelper (link<t>& root ,int x){
+	if (root==null) return null;
+	if(root->item<x) root->r=delHelper(root->r,x);
+	else if(root->item>x) root->l=delHelper(root->l,x);
+	else if (root->item==x){link<t> r=root->r , *l=root->l ;
+		if(root->l==null && root->r==null) {root=null;return null;
+		}else if (root->l==null){link<t> temp = root->r;root->r=null;root=temp;return temp;
+		}else if (root->r=null && root->l!=null){link<t> temp = root->l;root->l=null;	root=temp;return temp;
+		}else{link<t> temp = root->l , *prevTotemp = root;
+			while(temp!=null && temp->r!=null) prevTotemp=temp,temp = temp->r;
+			temp->r = r ;
+			if(prevTotemp!=root){prevTotemp->r = temp->l;temp->l = l;}
+			root->l=null,root->r=null;
+			root=temp;
+		}
+	}
+	return root;
 }
 
 int main(){
