@@ -55,11 +55,10 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 }
 
 int partition(vi& v, int start, int end){
-	int pivot = v[end];
-	int pivotIndex = start ;
+	int pivot = v[end],pivotIndex = start;
 	fli(i,start,end){
-		if(v[i]<=pivot) {
-			swap(v[pivotIndex],v[i]);
+		if(v[i]<=pivot){
+			swap(v[i],v[pivotIndex]);
 			pivotIndex++;
 		}
 	}
@@ -70,8 +69,12 @@ int partition(vi& v, int start, int end){
 void divide (vi& v, int start, int end){
 	if (start>=end) return;
 	int pivotIndex = partition(v,start,end);
-	divide(v,start,pivotIndex-1);
-	divide(v,pivotIndex+1,end);
+	// sorting first smaller files will help to improve worst space complexity(not time)
+	while(start<end)
+		if(pivotIndex-start < end - pivotIndex)
+			divide(v,pivotIndex+1,end),end=pivotIndex-1;
+		else
+			divide(v,start,pivotIndex-1),start=pivotIndex+1;
 }
 
 void qsort(vi& v){
