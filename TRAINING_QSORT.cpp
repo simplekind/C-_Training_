@@ -69,6 +69,42 @@ int partition(vi& v, int start, int end){
 	return pivotIndex;
 }
 
+void InsertionSort(vi& A, int start,int end){
+  	int i, key, j;  
+    for (i = start; i <=end; i++) {  
+        key = A[i];  
+        j = i - 1;  
+        while (j >= 0 && A[j] > key) {  
+            A[j + 1] = A[j];  
+            j = j - 1;  
+        }  
+        A[j + 1] = key;  
+    }  
+}
+
+// helps to reduce time for sorting small items M<=11 and by partitioning for 3 elements
+// left, mid and right
+void divide_nlogn_space_insert_sort_3_way_part(vi& v, int start, int end){
+	if (start-end<=11) {
+		InsertionSort(v,start,end);
+		return;		
+	}
+	swap(v[(start+end)/2],v[end-1]);
+	if(v[start]>v[end-1]) swap(v[start],v[end-1]);
+	if(v[start]>v[end]) swap(v[start],v[end]);
+	if(v[end-1]>v[end]) swap(v[end-1],v[end]);
+		while(start<end){
+		int pivotIndex = partition(v,start,end);
+		deb(pivotIndex);
+		if(pivotIndex - start < end - pivotIndex)
+			deb(1),divide_nlogn_space_insert_sort_3_way_part(v,start,pivotIndex-1),start=pivotIndex+1;
+		else
+			deb(2),divide_nlogn_space_insert_sort_3_way_part(v,pivotIndex+1,end),end=pivotIndex-1;
+	}
+}
+
+
+// helps to reduce stack size from worst case of n to worst case of nlgn
 void divide_nlognspace (vi& v, int start, int end){
 	if (start>=end) return;
 //	int count = 0; this is just to check how many time loop ran
@@ -94,14 +130,15 @@ void divide (vi &v, int start, int end){
 }
 
 void qsort(vi& v){
-	divide_nlognspace(v,0,v.size()-1);
-	divide(v,0,v.size()-1);
+	divide_nlogn_space_insert_sort_3_way_part(v,0,v.size()-1);
+//	divide_nlognspace(v,0,v.size()-1);
+//	divide(v,0,v.size()-1);
 }
 
 void solve(){
 //	vi v = {1,2,3,4,5,6,7};
-//	vi v = {7,5,11,2,1,3,5,4,1,10,12};
-	vi v = {1,2,3,4}; 
+	vi v = {7,5,11,2,1,3,5,4,1,10,12};
+//	vi v = {1,2,3,4}; 
 	qsort(v);
 	cout<<v;
 }
