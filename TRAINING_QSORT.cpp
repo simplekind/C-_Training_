@@ -55,6 +55,9 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 }
 
 int partition(vi& v, int start, int end){
+	deb2(start,end);
+	fli(i,start,end+1) cout<<v[i]<<" ";
+	cout<<endln;
 	int pivot = v[end],pivotIndex = start;
 	fli(i,start,end){
 		if(v[i]<=pivot){
@@ -66,23 +69,39 @@ int partition(vi& v, int start, int end){
 	return pivotIndex;
 }
 
-void divide (vi& v, int start, int end){
+void divide_nlognspace (vi& v, int start, int end){
 	if (start>=end) return;
-	int pivotIndex = partition(v,start,end);
-	// sorting first smaller files will help to improve worst space complexity(not time)
-	while(start<end)
-		if(pivotIndex-start < end - pivotIndex)
-			divide(v,pivotIndex+1,end),end=pivotIndex-1;
+//	int count = 0; this is just to check how many time loop ran
+	while(start<end){
+//		deb(count++);
+		int pivotIndex = partition(v,start,end);
+		deb(pivotIndex);
+		// sorting first smaller files will help to improve worst space complexity(not time)
+		if(pivotIndex - start < end - pivotIndex)
+			deb(1),divide_nlognspace(v,start,pivotIndex-1),start=pivotIndex+1;
 		else
-			divide(v,start,pivotIndex-1),start=pivotIndex+1;
+			deb(2),divide_nlognspace(v,pivotIndex+1,end),end=pivotIndex-1;
+	}
+}
+
+void divide (vi &v, int start, int end){
+	if(start>=end) return;
+	int p = partition(v,start,end);
+	deb2(start,p-1);
+	divide(v,start,p-1);
+	deb2(p+1,end);
+	divide(v,p+1,end);
 }
 
 void qsort(vi& v){
+	divide_nlognspace(v,0,v.size()-1);
 	divide(v,0,v.size()-1);
 }
 
 void solve(){
-	vi v = {7,5,11,2,1,3,5,4,1,10};
+//	vi v = {1,2,3,4,5,6,7};
+//	vi v = {7,5,11,2,1,3,5,4,1,10,12};
+	vi v = {1,2,3,4}; 
 	qsort(v);
 	cout<<v;
 }
