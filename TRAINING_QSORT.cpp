@@ -54,6 +54,57 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 	return ostream;
 }
 
+void InsertionSort(vi& A, int start,int end){
+  	int i, key, j;  
+    for (i = start; i <=end; i++) {  
+        key = A[i];  
+        j = i - 1;  
+        while (j >= 0 && A[j] > key) {  
+            A[j + 1] = A[j];  
+            j = j - 1;  
+        }  
+        A[j + 1] = key;  
+    }  
+}
+
+// using dnf partition to handle the duplicate keys
+
+vi partitiondnf(vi& v, int start, int end){
+	int pivot = v[end];
+	int startPivot = start, endPivot = end-1, i = start;
+	while(i<=endPivot){
+		if(pivot>v[i]){
+			swap(v[startPivot],v[i]);
+			i++;
+			startPivot++;
+		}else if (pivot==v[i]){
+			i++;
+		}else if (pivot<v[i]){
+			swap(v[endPivot],v[i]);
+			endPivot--;
+		}
+	}
+	return {startPivot,endPivot};
+}
+void divide_nlogn_space_insert_sort_3_way_part_dnf(vi& v, int start, int end){
+	if (start-end<=11) {
+		InsertionSort(v,start,end);
+		return;		
+	}
+	while(start<end){
+		swap(v[(start+end)/2],v[end-1]);
+		if(v[start]>v[end-1]) swap(v[start],v[end-1]);
+		if(v[start]>v[end]) swap(v[start],v[end]);
+		if(v[end-1]>v[end]) swap(v[end-1],v[end]);
+		vi a = partitiondnf(v,start+1,end-1);
+		int startPivot = a[0],endPivot = a[1];
+		if(startPivot - start < end - endPivot)
+			deb(1),divide_nlogn_space_insert_sort_3_way_part_dnf(v,start,startPivot-1),start=endPivot+1;
+		else
+			deb(2),divide_nlogn_space_insert_sort_3_way_part_dnf(v,endPivot+1,end),end=startPivot-1;
+	}
+}
+
 int partition(vi& v, int start, int end){
 	deb2(start,end);
 	fli(i,start,end+1) cout<<v[i]<<" ";
@@ -67,19 +118,6 @@ int partition(vi& v, int start, int end){
 	}
 	swap(v[pivotIndex],v[end]);
 	return pivotIndex;
-}
-
-void InsertionSort(vi& A, int start,int end){
-  	int i, key, j;  
-    for (i = start; i <=end; i++) {  
-        key = A[i];  
-        j = i - 1;  
-        while (j >= 0 && A[j] > key) {  
-            A[j + 1] = A[j];  
-            j = j - 1;  
-        }  
-        A[j + 1] = key;  
-    }  
 }
 
 // helps to reduce time for sorting small items M<=11 and by partitioning for 3 elements
@@ -133,11 +171,12 @@ void qsort(vi& v){
 	divide_nlogn_space_insert_sort_3_way_part(v,0,v.size()-1);
 //	divide_nlognspace(v,0,v.size()-1);
 //	divide(v,0,v.size()-1);
+	divide_nlogn_space_insert_sort_3_way_part_dnf(v,0,v.size()-1);
 }
 
 void solve(){
 //	vi v = {1,2,3,4,5,6,7};
-	vi v = {7,5,11,2,1,3,5,4,1,10,12};
+	vi v = {7,5,11,2,1,3,12,5,4,1,10,12};
 //	vi v = {1,2,3,4}; 
 	qsort(v);
 	cout<<v;
