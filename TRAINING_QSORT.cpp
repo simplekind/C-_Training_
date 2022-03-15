@@ -89,12 +89,12 @@ void divide_nlogn_space_insert_sort_3_way_part(vi& v, int start, int end){
 		InsertionSort(v,start,end);
 		return;		
 	}
-	swap(v[(start+end)/2],v[end-1]);
-	if(v[start]>v[end-1]) swap(v[start],v[end-1]);
-	if(v[start]>v[end]) swap(v[start],v[end]);
-	if(v[end-1]>v[end]) swap(v[end-1],v[end]);
-		while(start<end){
-		int pivotIndex = partition(v,start,end);
+	while(start<end){
+		swap(v[(start+end)/2],v[end-1]);
+		if(v[start]>v[end-1]) swap(v[start],v[end-1]);
+		if(v[start]>v[end]) swap(v[start],v[end]);
+		if(v[end-1]>v[end]) swap(v[end-1],v[end]);
+		int pivotIndex = partition(v,start+1,end-1);
 		deb(pivotIndex);
 		if(pivotIndex - start < end - pivotIndex)
 			deb(1),divide_nlogn_space_insert_sort_3_way_part(v,start,pivotIndex-1),start=pivotIndex+1;
