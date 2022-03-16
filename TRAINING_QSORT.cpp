@@ -54,6 +54,40 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 	return ostream;
 }
 
+// here we used partition for end element for each 
+int partition(vi& v, int start, int end);
+
+// we can use a random partition/pivot techq for better results
+int partition_random(vi& v, int start, int end){
+	srand(time(NULL));
+    int random = start + rand() % (end - start);
+    swap(v[random], v[end]);
+    return partition(v,start,end);
+}
+
+// QUICKSELECT
+// non-recursive
+void divide_it (vi &v , int start, int end,int k){
+	if(start>=end) return;
+	while(start<=end){
+		int p = partition(v, start,end);
+		if(p<k)
+			start=p+1;
+		else
+			end=p-1;
+	}
+}
+
+// recursive
+void divide (vi &v , int start, int end,int k){
+	if(start>=end) return;
+	int p = partition(v, start,end);
+	if(p==k) return;
+	else if(p>k) divide(v,start,p-1,k);
+	else 		 divide(v,p+1,end,k);
+}
+
+// QUICKSORT
 void InsertionSort(vi& A, int start,int end){
   	int i, key, j;  
     for (i = start; i <=end; i++) {  
@@ -68,7 +102,6 @@ void InsertionSort(vi& A, int start,int end){
 }
 
 // using dnf partition to handle the duplicate keys
-
 vi partitiondnf(vi& v, int start, int end){
 	int pivot = v[end];
 	int startPivot = start, endPivot = end-1, i = start;
@@ -86,6 +119,7 @@ vi partitiondnf(vi& v, int start, int end){
 	}
 	return {startPivot,endPivot};
 }
+
 void divide_nlogn_space_insert_sort_3_way_part_dnf(vi& v, int start, int end){
 	if (start-end<=11) {
 		InsertionSort(v,start,end);
@@ -99,16 +133,13 @@ void divide_nlogn_space_insert_sort_3_way_part_dnf(vi& v, int start, int end){
 		vi a = partitiondnf(v,start+1,end-1);
 		int startPivot = a[0],endPivot = a[1];
 		if(startPivot - start < end - endPivot)
-			deb(1),divide_nlogn_space_insert_sort_3_way_part_dnf(v,start,startPivot-1),start=endPivot+1;
+			divide_nlogn_space_insert_sort_3_way_part_dnf(v,start,startPivot-1),start=endPivot+1;
 		else
-			deb(2),divide_nlogn_space_insert_sort_3_way_part_dnf(v,endPivot+1,end),end=startPivot-1;
+			divide_nlogn_space_insert_sort_3_way_part_dnf(v,endPivot+1,end),end=startPivot-1;
 	}
 }
 
 int partition(vi& v, int start, int end){
-	deb2(start,end);
-	fli(i,start,end+1) cout<<v[i]<<" ";
-	cout<<endln;
 	int pivot = v[end],pivotIndex = start;
 	fli(i,start,end){
 		if(v[i]<=pivot){
@@ -132,12 +163,12 @@ void divide_nlogn_space_insert_sort_3_way_part(vi& v, int start, int end){
 		if(v[start]>v[end-1]) swap(v[start],v[end-1]);
 		if(v[start]>v[end]) swap(v[start],v[end]);
 		if(v[end-1]>v[end]) swap(v[end-1],v[end]);
-		int pivotIndex = partition(v,start+1,end-1);
-		deb(pivotIndex);
+//		int pivotIndex = partition(v,start+1,end-1);
+		int pivotIndex = partition_random(v,start+1,end-1);
 		if(pivotIndex - start < end - pivotIndex)
-			deb(1),divide_nlogn_space_insert_sort_3_way_part(v,start,pivotIndex-1),start=pivotIndex+1;
+			divide_nlogn_space_insert_sort_3_way_part(v,start,pivotIndex-1),start=pivotIndex+1;
 		else
-			deb(2),divide_nlogn_space_insert_sort_3_way_part(v,pivotIndex+1,end),end=pivotIndex-1;
+			divide_nlogn_space_insert_sort_3_way_part(v,pivotIndex+1,end),end=pivotIndex-1;
 	}
 }
 
@@ -149,21 +180,18 @@ void divide_nlognspace (vi& v, int start, int end){
 	while(start<end){
 //		deb(count++);
 		int pivotIndex = partition(v,start,end);
-		deb(pivotIndex);
 		// sorting first smaller files will help to improve worst space complexity(not time)
 		if(pivotIndex - start < end - pivotIndex)
-			deb(1),divide_nlognspace(v,start,pivotIndex-1),start=pivotIndex+1;
+			divide_nlognspace(v,start,pivotIndex-1),start=pivotIndex+1;
 		else
-			deb(2),divide_nlognspace(v,pivotIndex+1,end),end=pivotIndex-1;
+			divide_nlognspace(v,pivotIndex+1,end),end=pivotIndex-1;
 	}
 }
 
 void divide (vi &v, int start, int end){
 	if(start>=end) return;
 	int p = partition(v,start,end);
-	deb2(start,p-1);
 	divide(v,start,p-1);
-	deb2(p+1,end);
 	divide(v,p+1,end);
 }
 
@@ -171,13 +199,23 @@ void qsort(vi& v){
 	divide_nlogn_space_insert_sort_3_way_part(v,0,v.size()-1);
 //	divide_nlognspace(v,0,v.size()-1);
 //	divide(v,0,v.size()-1);
-	divide_nlogn_space_insert_sort_3_way_part_dnf(v,0,v.size()-1);
+//	divide_nlogn_space_insert_sort_3_way_part_dnf(v,0,v.size()-1);
+}
+
+// if k is small then use selection sort 
+void qselect(vi & v,int k){
+//	divide(v,0,v.size()-1,k);
+//	deb(v[k-1]);
+	divide_it(v,0,v.size()-1,k);
+	deb2(k,v[k-1]);
 }
 
 void solve(){
 //	vi v = {1,2,3,4,5,6,7};
-	vi v = {7,5,11,2,1,3,12,5,4,1,10,12};
+	vi v1= {7,5,11,2,1,3,12,5,4,1,10,12};
+	vi v= {7,5,11,2,1,3,12,5,4,1,10,12};
 //	vi v = {1,2,3,4}; 
+	qselect(v1,10);
 	qsort(v);
 	cout<<v;
 }
