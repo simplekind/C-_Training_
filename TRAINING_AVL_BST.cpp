@@ -176,6 +176,49 @@ void inorderIndentPrint(link<t> root,int h){
 // N(h) = 2N(h-1) + 1
 // N(h) = O(2^h) => h = logn ~= O(logn)
 
+// Number of different shapes of AVL tree for minimal case:-
+// 		o
+//	  /	  \
+//  h-1	   h-2
+//
+// So if for height h we have NS(h)
+// for height h-1 we have NS(h-1)
+// for height h-2 we have NS(h-2)
+// So for this case we have all diffenet possibilities for a tree with h-1 and for a tree with h-2
+// i.e., NS(h-1)*NS(h-2)
+//
+// But this tree can be inverted in the sense that
+// 		o
+//	  /	  \
+//  h-2	   h-1
+// will be counted as a separate case as well ,
+// i.e., NS(h-2)*NS(h-1)
+//
+// so NS(h) = NS(h-1)*NS(h-2) + NS(h-2)*NS(h-1) = 2*NS(h-1)*NS(h-2)
+//
+
+// an imp conceptual question
+// this techq might be used in various questions
+
+// SORTED ARRAY TO AVL
+// idea is to pick up middle element as root coz its left part and right part either be equal or differ by 1
+template <typename t>
+link<t> helper_Arr_To_AVl (vector<int>& nums, int start, int end){	// eventually passing by ref saves us time
+    if(start>end) return null;
+    int mid = start + ((end-start)>>1);
+    link<t> root= new node<t>(nums[mid],0,0);
+    root->l=helper_Arr_To_AVl<t>(nums,start,mid-1);
+    root->r=helper_Arr_To_AVl<t>(nums,mid+1,end);
+    return root;
+}
+
+template <typename t>
+link<t> Arr_To_AVl (vi& nums){
+	return helper_Arr_To_AVl<t>(nums,0,nums.size()-1);
+}
+
+// The above techq might be used like to convert a BST to balanced , by first doing an inorder traversal then following this
+
 void solve(){
 	link<int> root =new node<int> (1,0,0);
 	insert(root,2);
@@ -188,6 +231,9 @@ void solve(){
 	insert(root,-5);
 	insert(root,-8);
 	inorderIndentPrint(root,0);
+	vi v = {1,2,3,4,5,6,7,78};
+	cout<<endln<<endln<<endln<<endln<<endln<<endln;
+	inorderIndentPrint(Arr_To_AVl<int>(v),0);	
 }
 
 int main(){

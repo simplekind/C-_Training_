@@ -143,78 +143,77 @@ using namespace std;
 template <typename t>
 struct node {
 	t item ;
-	node* l , *r;
-	node(t item , node*l, node*r){this->item=item;this->l=l;this->r=r;}
+	node *l , *r;
+	int height ;
+	node(t item , node*l, node*r){
+		this->item=item;
+		this->l=l;
+		this->r=r;
+		this->height=0;
+	}
 };
 template<typename t>
-using link = node<t> * ;
+using link = node<t>*;
 
 template<typename t>
-link<t> searchHelper(link<t> head,t x){
-	if(head==null) return null;
-	if(head->item==x) return head;
-	else if(head->item < x ) return searchHelper(head->r,x);
-	else if(head->item > x ) return searchHelper(head->l,x);
+int height( link<t> root){
+	if(root==null) return -1; 
+	return root->height;
 }
 
 template<typename t>
-link<t> insertHelper(link<t> head , t x){
-	if(head==null) {
-		link<t> curr = new node<t>(x,0,0);
-		return curr;				
-	}
-	else if(head->item<=x) {
-		head->r=insertHelper(head->r,x);
+link<t> Lrot(link<t> root){
+	if(root==null) return null;
+	link<t> x  = root->r;
+	root->r = x->l;
+	x->l = root;
+	root->height = max(height(root->l),height(root->r))+1;
+	x->height = max(height(x->l),height(x->r)) + 1;
+	return x;
+}
+
+template<typename t>
+link<t> Rrot(link<t> root){
+	if(root==null) return null;
+	link<t> x  = root->l;
+	root->l = x->r;
+	x->r = root;
+	root->height = max(height(root->l),height(root->r))+1;
+	x->height = max(height(x->l),height(x->r)) + 1;
+	return x;
+}
+
+template<typename t>
+link<t> insertAtRoot(link<t> root,int x){
+	if(root==null) return new node<t>(x,0,0);
+	if(x>root->item) {
+		root->r=insertAtRoot(root->r,x);
 	}else{
-		head->l=insertHelper(head->l,x);				
+		root->l=insertAtRoot(root->l,x);
 	}
-	return head;			
-}
-
-template<typename t>
-void inorderHelper(link<t> head){
-	if(head==null) return;
-	inorderHelper(head->l);
-	deb(head->item);
-	inorderHelper(head->r);
-}
-
-template<typename t>
-link<t> maxHelper (link<t> head){
-	if(head==null) return null;
-	while(head->r!=null){
-		head=head->r;
-	}
-	return head;
-}
-
-template<typename t>
-link<t> minHelper (link<t> head){
-	if(head==null) return null;
-	while(head->l!=null){
-		head=head->l;
-	}
-	return head;
-}
-
-template<typename t>
-link<t> delHelper (link<t>& root ,int x){
-	if (root==null) return null;
-	if(root->item<x) root->r=delHelper(root->r,x);
-	else if(root->item>x) root->l=delHelper(root->l,x);
-	else if (root->item==x){link<t> r=root->r , *l=root->l ;
-		if(root->l==null && root->r==null) {root=null;return null;
-		}else if (root->l==null){link<t> temp = root->r;root->r=null;root=temp;return temp;
-		}else if (root->r=null && root->l!=null){link<t> temp = root->l;root->l=null;	root=temp;return temp;
-		}else{link<t> temp = root->l , *prevTotemp = root;
-			while(temp!=null && temp->r!=null) prevTotemp=temp,temp = temp->r;
-			temp->r = r ;
-			if(prevTotemp!=root){prevTotemp->r = temp->l;temp->l = l;}
-			root->l=null,root->r=null;
-			root=temp;
+	int balanceFactor = height(root->l) - height(root->r) ;
+	if(balanceFactor>1){
+		if(height(root->l->l) >= height(root->l->r)){
+			return Rrot(root);
+		}else{
+			root->l = Lrot(root->l);
+			return Rrot(root);
+		}
+	}else if (balanceFactor<-1){
+		if(height(root->r->r) >= height(root->r->l)){
+			return Lrot(root);
+		}else{
+			root->r = Rrot(root->r);
+			return Lrot(root);
 		}
 	}
+	root->height= 1+ max(height(root->l),height(root->r));
 	return root;
+}
+
+template<typename t>
+void insert(link<t>& root, int x){
+	root=insertAtRoot(root,x);
 }
 
 int main(){
