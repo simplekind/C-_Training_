@@ -219,6 +219,14 @@ link<t> Arr_To_AVl (vi& nums){
 
 // The above techq might be used like to convert a BST to balanced , by first doing an inorder traversal then following this
 
+// APPLICATION OF AVL TREES (ALSO FOLLOWS FOR OTHER BALANCED TREES AND RED BLAC TREES):
+//
+// A balanced binary tree can be a better option than a complete binary tree for storing a set S.
+// However A complete binary tree is more space efficient as we do not need any extra flags. A
+// balanced binary tree usually takes more space since we need to store some flags. For example, in
+// a Red-Black tree we need to store a bit for the color. Also, a complete binary tree can be stored
+// in a RAM as an array without using pointers
+
 void solve(){
 	link<int> root =new node<int> (1,0,0);
 	insert(root,2);
