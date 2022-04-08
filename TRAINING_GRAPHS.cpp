@@ -40,82 +40,8 @@ int ** newArr(int n,int m)  ;
 
 const int mod = 1000000007;
 
-vt <vi> g ;
-vpii v;
-
-void dfs(int u){
-	
-}
-
-// for weighted BFS wont work 
-// for unweihted it does
-bool bipar(int u=1,int curr_color){
-	
-}
-
-// dijsktra 
-// single source shortest path
-
-// https://www.codechef.com/problems/EVEDG
 void solve(){
-//	int n, e; cin>>n>>e;
-//	g.resize(n+1,vi());
-//	vi ans(n+5,1);
-//	fli(i,0,e){
-//		int u , v;
-//		cin>>u>>v;
-//		g[u].pb(v);
-//		g[v].pb(u);
-//	}
-//	// Even edges then only 1 min possible subset
-//	if(!(e%2)){
-//		cout<<1<<endln;
-//		fli(i,0,n)
-//			cout<<1<<" ";
-//		cout<<endln;
-//	}else{		// odd edges
-//		// count degree for each vertex and store it in v
-//		int flag=0;
-//		fli(i,1,n+1){
-//			// checking if any odd no. of degree
-////			deb(g[i].size());
-//			if(g[i].size()%2)
-//				flag=1;
-//			v.pb({i,g[i].size()});
-//		}
-//		int f1=1,f2=1;
-//		if(flag){	// for odd degree inside odd edges
-//			for (auto i:v){
-//				// odd degree vertex
-//				if(i.s%2 &&f1){
-//					ans[i.f]=2; f1=0;	// now since odd is covered no need to do it for any other vertex since taking out one odd degree from an odd no. of edges means we have no even. no. of degres in both sub
-//				// 2 because now we have put it in 2nd subset
-//				}
-//				if(i.s==0)
-//					ans[i.f]=2;	// this is a case as well
-//			}
-//		}else{ // for even degree inside odd edges
-//			for (auto i:v){
-//				if(i.s && f2){ // now we have to remove 2 vertices
-//					ans[i.f]=2;	// one vertex without 0 degre
-//					ans[g[i.f][0]]=3; // on in neighbour to it 
-//					f2=0;
-//				}
-//				if(i.s==0){
-//					ans[i.f]=2;
-//				}
-//			}
-//		}
-//		if (flag) cout<<2<<endln; // for min case with atleast 1 odd deg max subset size is 2
-//		else cout<<3<<endln; // for min case max subset size is 3
-//		fli(i,1,n+1){
-//			if(!ans[i]) cout<<1<<" ";
-//			else cout<<ans[i]<<" ";
-//		}
-//		cout<<endln;
-//	}
 
-	
 }
 
 int main(){
@@ -142,10 +68,3 @@ int mpow(int base, int exp) {
   }
   return result;
 }
-
-int ** newArr(int n,int m){
-	int ** arr = new int* [n] ;
-	fli(i,0,m) arr[i] = new int [m];
-	return arr ;
-}
-

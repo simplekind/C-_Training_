@@ -324,18 +324,18 @@ link<t> lca (link<t> root, link<t> p, link<t> q){
 
 // If one of the traversal methods is Inorder then
 // the tree can be constructed uniquely, otherwise not.
-//• Inorder and Preorder
-//• Inorder and Postorder
-//• Inorder and Level-order
+//? Inorder and Preorder
+//? Inorder and Postorder
+//? Inorder and Level-order
 
 //The following combinations do not uniquely identify a tree.
-//• Postorder and Preorder
-//• Preorder and Level-order
-//• Postorder and Level-order
+//? Postorder and Preorder
+//? Preorder and Level-order
+//? Postorder and Level-order
 
 //
 // 	Given a parent array P, where P[i] indicates the parent of ith node in the tree
-//	(assume parent of root node is indicated with –1). Give an algorithm for finding the height
+//	(assume parent of root node is indicated with ?1). Give an algorithm for finding the height
 //	or depth of the tree.
 //
 //  Parent - child relationship:
