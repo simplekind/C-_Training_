@@ -1,0 +1,128 @@
+Graph
+	-> Set of Vertices and Set of Edges that connect pairs of distinct vertices (with atmost 1 edge connecting any pair of vertices)
+	
+MutliGraph
+	-> Parallel/Duplicate Edges
+
+Simple Graph
+	-> No self loops and No Parallel Edges
+
+Glossary of Graphs:
+
+	Adjacent Vertices:
+		-> Edge connecting 2 vertices
+		-> Edge is incident on both vertices
+
+	Degree of a Vertex:
+		-> Number of edges incident on it
+		
+	v-w / w-v -> DEge connecting v and w
+	
+	Subgraph:
+		-> Subset of EDGES (and associated vertices) that constitute a graph
+		-> This is required when we do some computtations
+	
+	
+	Induced Subgraph:
+		-> Subset of vertices ( and associated edges that connect 2 of its members)
+	
+	Euclidean Graphs:
+		-> When we also compute distances between 2 vertices
+		
+	Isomoprhic :
+		->if we can change the vertex labels on one to make its set of edges identical to the other
+
+	Path :
+		-> Sequence of vertices
+			->	with each successive vertex (in the sequence) is adjacent to its predecessor in the path.
+		-> Sequence of edges
+			->  that connects successive edges.
+		-> Simple Path 
+			->	vertices and edges are distinct
+		-> Cycle / Cyclic Path
+			->	A simple path with first and last vertex being same
+	
+	Tour :
+		-> Cyclic path that inlcudes every vertex
+	
+	Length of the path/cycle:
+		-> Number of edges path/cycle.
+		-> each single vertex has path length (a path from vertex to itself with no edges)
+		
+	DISJOINT PATHS:
+		-> 2 paths are said to be disjoint if they don't have common vertex other than end point (possibly)
+		-> Vertex DISJOINT
+			-> Paths with no vertex in common except last
+		-> Edge DISJOINT
+			-> Paths with no common edges!
+	
+Types  of Graphs:
+
+I)	
+	1. Connected Graphs
+		If there exists a path from every vertex to every other other vertex in graph
+		A graph that is not connected consists of a set of connected components
+		Such graph is maximal connected subgraphs
+						(Why subgraphs? coz there is no path from a subgraph vertex to any other subgraph's)
+
+	2. Disconnected Graphs	
+		Those which are not connected
+	
+II)
+	1. Tree
+		A graph is tree if it is :
+			connected
+			acyclic
+			
+		For an analytical point of view
+		For a graph G and V vertices is a tree iff any 1 satisifies:
+		
+			i) 		G has Edges = (V-1) and has no cycles
+			ii) 	G has Edges = (V-1) and is connected
+			iii) 	Exactly 1 simple path that connects each pair of vertices in G
+			iv)		G is connected, but if we remove any edge it will become disconnected
+
+	2. Spanning tree of a connected graph (IMP)
+		Subgraph that contains all vertices of connected graph and is a single tree.
+
+	3. Spanning Forest
+		Subgraph that contains all of that graph's vertices and is a forest.
+																	(Forest is just collection of different trees)
+		(So spanning forest for graph is just collection of different spanning trees in different graphs)
+
+III)
+	1. Complete Graphs/Clique:
+		There exists an edge between any 2 vertices
+	
+	2. Complement of a Graph G :
+		Take a complete graph that has the same set of vertices as G and then removing the edges of G from complete graph will give you complement of G
+	
+	3. Union of 2 graphs:
+		Union of set of edges.
+		
+		NOTE: 
+			i  ) UNION OF given graph G and ITS COMPLEMENT will give a complete graph
+			ii ) a given graph G will be subgraph of complete graph with same set of vertices
+			iv ) Total no. of edges with V vertices = (V(V-1)/2);
+					Logic: Number of different lines if we are given 2 points = VC2 
+			iii) Total no. of different graphs with V vertices = 2^(V(V-1)/2);
+					Logic: Taking an edge or not (basically number of different of subsets of V vertices)
+		
+	4. Density of a Graph:
+		Average vertex degree <=> 2E/V
+		Basically the ratio of Twice the edges and number of vertices just to check which is more
+			
+			Dense Graph:
+				Average vertex degree proportional to V
+					or,...
+				if E is proportional to V^2
+			Sparse Graph:
+				Graph whose complement is dense.
+		
+		Knowing if a graph is dense or sparse will help to select an efficient algo to process the graph
+		eg: one algo takes V^2 steps and other takes ElogE steps
+				for dense graph where E is proportional to V^2,
+					first 1 would be prefered over 2V^2logV
+				for sparse graph where E is not proportional to V^2 (prolly less),
+					then second 1 would be prefered over first 1
+	
