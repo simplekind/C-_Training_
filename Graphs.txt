@@ -107,8 +107,9 @@ III)
 					Logic: Number of different lines if we are given 2 points = VC2 
 			iii) Total no. of different graphs with V vertices = 2^(V(V-1)/2);
 					Logic: Taking an edge or not (basically number of different of subsets of V vertices)
-		
-	4. Density of a Graph:
+
+IV)	
+	Density of a Graph:
 		Average vertex degree <=> 2E/V
 		Basically the ratio of Twice the edges and number of vertices just to check which is more
 			
@@ -126,3 +127,52 @@ III)
 				for sparse graph where E is not proportional to V^2 (prolly less),
 					then second 1 would be prefered over first 1
 	
+V)
+	Bipartite Graph:
+		Basically if we can divide vertices into 2 sets where all edges connect a vertex from 1 set to another in other set. (They shouldnt have edge in same set)
+	
+	Directed Graphs / Digraphs:
+		
+		->	1 way edges where for a pair of vertices there is an edge that specifies a oneway
+			adjacency where we think about having the ability to get from the first
+			vertex to the second but not from the second vertex to the first 
+		
+		-> Edges in this graph are directed edges / arc.
+		
+		-> SOURCE! (Head)
+			The first vertex in Directed EDGE
+		
+		-> DESTINATION! (Tail)
+			The second vertex in Directed EDGE followed by SOURCE vertex.
+		
+		-> INDEGREE of a vertex
+			Number of edges where this vertex is a destination
+			
+		-> OUTDEGREE of a vertex
+			Number of edges where this vertex is a sources
+			
+		
+		
+	Undirected Graphs:
+		2 way edges
+	
+	Directed Cycle in a Digraph:
+		Cycle in which all adjacent vertex pairs appear in order indicated by diedges. 
+		That means if you follow all the arrows in order you end up begin at the same vertex
+
+	Directed Acyclic Graph (DAG):
+		Digraph with no directed cycles
+	
+	HEAVY NOTE:
+		1. a DAG is not same as a tree(an acyclic undirected graph).
+		2.  Unless qualified otherwise, trees in Mathematics or Graph Theory are usually assumed to be undirected, 
+			but in Computer Science or Programming or Data Structure, trees are usually assumed to be directed and rooted.
+
+	Weighted Graphs:
+		WE keep weights on each edge in Graph which generally reperesents distance/cost
+
+	We can also keep weights on vertices as well
+	
+	Weighted Digraphs:
+		Networks!
+		The classic problems that arise from a particular interpretation of networks known as flow networks	
