@@ -118,7 +118,7 @@ IV)
 					or,...
 				if E is proportional to V^2
 			Sparse Graph:
-				Graph whose complement is dense.
+				Graph whose complement is dense. (generally |edges|< |V|log|V|| )
 		
 		Knowing if a graph is dense or sparse will help to select an efficient algo to process the graph
 		eg: one algo takes V^2 steps and other takes ElogE steps
@@ -176,3 +176,8 @@ V)
 	Weighted Digraphs:
 		Networks!
 		The classic problems that arise from a particular interpretation of networks known as flow networks	
+		
+3 reperesentions of graphs:
+	1: Adjaceny Matrix
+	2: Adjaceny List
+	3: Adjaceny Set
