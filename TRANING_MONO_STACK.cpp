@@ -53,6 +53,49 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 	return ostream;
 }
 
+// MONO Stacck:
+// 
+// It finds prev/next less/great (basically in monotonous order) ele of each ele in a given vector A in O(n) time
+//
+// a typical way of solving mono stack prob
+//	for(int i = 0; i < A.size(); i++){
+//	  while(!in_stk.empty() && in_stk.top() > A[i]){
+//	    in_stk.pop();
+//	  }
+//	  in_stk.push(A[i]);
+//	}
+//
+// we generally push index instead of ele  it helps in avoiding duplicate cases and somtimes to calculate lengths
+// 
+// prev less ele
+//
+// previous_less[i] = j means A[j] is the previous less element of A[i].
+// previous_less[i] = -1 means there is no previous less element of A[i].
+//	vector<int> previous_less(A.size(), -1);
+//	for(int i = 0; i < A.size(); i++){
+//	  while(!in_stk.empty() && A[in_stk.top()] > A[i]){
+//	    in_stk.pop();
+//	  }
+//	  previous_less[i] = in_stk.empty()? -1: in_stk.top();
+//	  in_stk.push(i);
+//	}
+//
+// next less ele
+//
+// next_less[i] = j means A[j] is the next less element of A[i].
+// next_less[i] = -1 means there is no next less element of A[i].
+//	vector<int> previous_less(A.size(), -1);
+//	for(int i = 0; i < A.size(); i++){
+//	  while(!in_stk.empty() && A[in_stk.top()] > A[i]){
+//	    auto x = in_stk.top(); in_stk.pop();
+//	    next_less[x] = i;
+//	  }
+//	  in_stk.push(i);
+//	}
+//
+// you can try some other vars like next greater and prev greater
+// try questions from leetcode marked ones
+// https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
 void solve(){
 
 }
