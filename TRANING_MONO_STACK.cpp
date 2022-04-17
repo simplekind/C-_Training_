@@ -94,8 +94,8 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 //	}
 //
 // you can try some other vars like next greater and prev greater
-// try questions from leetcode marked ones
-// https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
+// Just try this one , it contains all varities
+// https://leetcode.com/problems/sum-of-subarray-ranges/
 void solve(){
 
 }
