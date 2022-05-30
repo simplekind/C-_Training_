@@ -4,7 +4,7 @@
 #define fld(i,a,b) for(auto i=a;i>=b;i--)
 #define llfli(i,a,b) for(auto i=a;i<b;i++)
 #define llfld(i,a,b) for(auto i=a;i>b;i--)
-#define fla(v,i) for(auto i: v)
+#define fla(i,v) for(auto i: v)
 #define endln '\n'
 #define ll long long
 #define ld long double
@@ -17,6 +17,7 @@
 #define inf 0x3f3f3f3f
 #define _inf 0xcfcfcfcf
 #define deb(x) cout << #x << " = " << x << endl
+#define deb2(x,y) cout << #x << " = " << x << " , "<<#y << " = " << y <<endl
 #define endln '\n'
 #define f first
 #define s second
@@ -36,20 +37,37 @@ typedef vector<vi>		vvi;
 typedef vector<vl>		vvl;
 
 int mpow(int base, int exp) ;
-int ** newArr(int n,int m)  ;
 
 const int mod = 1000000007;
 
 #define forll(h,i) for (link i = head;i!=0;i=i->nxt)
 #define null nullptr
 
+struct edge{
+	int v;
+	int w;
+	edge(int v,int w){
+		this->v=v;
+		this->w=w;
+	}
+	edge(int v){
+		this->v=v;
+	}
+	edge(){}
+};
+
+ostream &operator<<(ostream &ostream, const edge &e){
+	cout<<e.v;
+	return ostream;
+}
+
 template <typename Item>
 struct node {		// linked list node
 	Item item ;
-	node *next ;
+	node *nxt ;
 	node (Item item , node *t ){
 		this->item =item;
-		(*this).next = t ;
+		(*this).nxt = t ;
 	}
 };
 
@@ -57,7 +75,8 @@ template <typename Item>
 using link = node<Item>* ;
 
 template <typename Item>
-void insertAt (link<Item>& head ,link<Item> temp,int pos){
+void insertAt (link<Item>& head ,Item item,int pos){
+	link<Item> temp = new node<Item> (item,0);
 	if(pos==1){
 		temp->nxt = head ;
 		head = temp ;
@@ -116,19 +135,15 @@ void delSinglyLinkedList(link<Item>& head ){
 		head = head->nxt ;
 		delete temp ;
 	}
-}//~\\
-09/04/22 11:30
+}
 
-// adjancey lists
-// time proportional to V+E, thats why its for sparse graph
-
-class SparseGraph{
+class graph{
 	int v;
 	int e;
 	bool digraph ;
-	vt<link<int>> adj;
 	public:
-		SparseGraph(int v, bool digraph = 0) : v(v),e(0),digraph(digraph){
+		vt<link<edge>> adj;
+		graph(int v, bool digraph = 0) : v(v),e(0),digraph(digraph){
 			adj.resize(v,null);
 		}
 		
@@ -145,79 +160,58 @@ class SparseGraph{
 		}
 		
 		void insert (int u , int v){
-			adj[u] = new node<int>(v,adj[u]);
+			this->e ++;
+			edge e(v) ;
+			insertAt(adj[u],e,1);
 			if(!digraph)
-				adj[v] = new node<int>(u,adj[v]);
+				e.v=u;
+				insertAt(adj[v],e,1);
 		}
 		
 		void remove(int u , int v){
-			link<int> curr = adj[u];
-			while(curr->next!=null && curr->next->item!=v)
-				curr=curr->next;
-			if(curr->next==null)
+			link<edge> curr = adj[u];
+			while(curr->nxt!=null && curr->nxt->item.v!=v)
+				curr=curr->nxt;
+			if(curr->nxt==null)
 				return ;
-			link<int> temp = curr->next->next;
-			curr->next->next=null;
-			curr->next=temp;
+			link<edge> temp = curr->nxt->nxt;
+			curr->nxt->nxt=null;
+			curr->nxt=temp;
 			if(!digraph){
 				curr = adj[v];
-				while(curr->next!=null && curr->next->item!=u)
-					curr=curr->next;
-				if(curr->next==null)
+				while(curr->nxt!=null && curr->nxt->item.v!=u)
+					curr=curr->nxt;
+				if(curr->nxt==null)
 					return ;
-				link<int> temp = curr->next->next;
-				curr->next->next=null;
-				curr->next=temp;
+				link<edge> temp = curr->nxt->nxt;
+				curr->nxt->nxt=null;
+				curr->nxt=temp;
 			}
 		}
 		
-		bool edge (int u , int v) const{
-			link <int> curr = adj[u];
-			while(curr!=null && curr->item!=v)
-				curr=curr->next;
+		bool isEdge (int u , int v) const{
+			link <edge> curr = adj[u];
+			while(curr!=null && curr->item.v!=v)
+				curr=curr->nxt;
 			if(curr==null)
 				return 0;
 			return 1;
 		}
-		
-//		class adjit;
-//		friend class adjit;
 };
 
-// an iterator to iterate over edges in order they appear in adjancey matrix
-//class SparseGraph:: adjit{
-//	const SparseGraph & g;
-//	int v ;
-//	link<int> i ;
-//	public :
-//		adjit(const SparseGraph& g, int v):g(g),v(v),i(null){}
-//		
-//		int nxt(){
-//			if(i!=null)
-//				i=i->next;
-//			return i!=null ? i->item : -1;
-//		}
-//		
-//		int beg(){
-//			i=g.adj[v];
-//			return i!=null ? i->item : -1;
-//		}
-//		
-//		bool end(){
-//			return i==null;
-//		}
-//};
-
-//The primary advantage of the adjacency-lists representation over the
-//adjacency-matrix representation is that it always uses space proportional to
-//E + V, as opposed to V2 in the adjacency matrix
-
-//The primary disadvantage
-//is that testing for the existence of specific edges can take time proportional
-//to V, as opposed to constant time in the adjacency matrix.
-
 void solve(){
-	
+	graph g(6);
+	g.insert(0,1);
+	g.insert(0,2);
+	g.insert(1,3);
+	g.insert(2,3);
+	g.insert(3,4);
+	g.insert(3,5);
+	g.insert(4,5);
+	for (int i =0 ;i< g.getV();i++)
+		cout<<i<< ": ",
+		printList(g.adj[i]),
+		cout<<endln;
 }
 
 int main(){

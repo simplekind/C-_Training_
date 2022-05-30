@@ -1,0 +1,2 @@
+DP:
+	 dynamic programming on subsets problem, which has similar ideas with TSP (travelling salesman problem). Usually you can recoginze these problems if dimension of data is around 10-20

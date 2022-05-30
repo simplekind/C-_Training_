@@ -1,0 +1,9 @@
+SOME BASIC C++ INFO:
+	
+	std::set::lower_bound(val) v/s std::lower_bound(all(set_name),val)
+	
+	set::lower_bound takes advantage of knowing it's applying this operation on a set and it's properties. Ensuring logN time.
+
+	While std::lower_bound only promises logN time if the iterators are random. Set iterator is a not a random one (like on a sorted vector)
+	
+	So use set_name.lower_bound !

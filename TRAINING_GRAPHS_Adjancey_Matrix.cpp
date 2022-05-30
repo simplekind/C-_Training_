@@ -92,29 +92,29 @@ class DenseGraph{
 };
 
 // an iterator to iterate over edges in order they appear in adjancey matrix
-class DenseGraph :: adjit{
-	const DenseGraph & g;
-	int i ;
-	int v ;
-	public :
-		adjit(const DenseGraph & g, int v):g(g),v(v),i(-1){}
-		
-		int nxt(){
-			for (i++;i<g.getV();i++)
-				if(g.adj[v][i])
-					return i;
-			return -1;
-		}
-		
-		int beg(){
-			i=-1;
-			return  nxt();
-		}
-		
-		bool end(){
-			return i>=g.getV();
-		}
-};
+//class DenseGraph :: adjit{
+//	const DenseGraph & g;
+//	int i ;
+//	int v ;
+//	public :
+//		adjit(const DenseGraph & g, int v):g(g),v(v),i(-1){}
+//		
+//		int nxt(){
+//			for (i++;i<g.getV();i++)
+//				if(g.adj[v][i])
+//					return i;
+//			return -1;
+//		}
+//		
+//		int beg(){
+//			i=-1;
+//			return  nxt();
+//		}
+//		
+//		bool end(){
+//			return i>=g.getV();
+//		}
+//};
 
 // for sparse graphs , V^2 is large compared to V+E then we prefer using
 // adjancey lists

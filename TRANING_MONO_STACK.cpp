@@ -24,7 +24,7 @@
 #define all(x) x.begin(),x.end()
 #define sortall(x) sort(all(x))
 #define vt vector
-
+#define m 1000000007
 using namespace std;
 
 typedef pair<int, int>	pii;
@@ -67,7 +67,7 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 //
 // we generally push index instead of ele  it helps in avoiding duplicate cases and somtimes to calculate lengths
 // 
-// prev less ele
+// 1 ) STORING PREV LESSER ELEMENT  FOR EACH ELEMENT IN A VECTOR
 //
 // previous_less[i] = j means A[j] is the previous less element of A[i].
 // previous_less[i] = -1 means there is no previous less element of A[i].
@@ -80,7 +80,7 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 //	  in_stk.push(i);
 //	}
 //
-// next less ele
+// 2 ) STORING NEXT LESSER ELEMENT  FOR EACH ELEMENT IN A VECTOR
 //
 // next_less[i] = j means A[j] is the next less element of A[i].
 // next_less[i] = -1 means there is no next less element of A[i].
@@ -96,8 +96,100 @@ ostream &operator<<(ostream &ostream, const vector<T> &c){
 // you can try some other vars like next greater and prev greater
 // Just try this one , it contains all varities
 // https://leetcode.com/problems/sum-of-subarray-ranges/
-void solve(){
 
+// https://leetcode.com/problems/largest-rectangle-in-histogram/
+// Use stack to store incr order
+//
+// if curr height is lesser than the height present in the top of stack then pop the heights from stack until you get height lower than the curr height, and while popping out elements keep on calc area
+//          Calc for area:- 
+//                      take out the top most element from the stack and while popping out elements calc the area with them
+//
+// else just add it to the stack
+// 
+// If stack is already empty then when you took out the top most element from stack then area = height*(curr index) beacause that means all elements before than curr index are greater than curr index
+//
+
+//https://leetcode.com/problems/sum-of-subarray-minimums/submissions/
+
+void prevsmaller(vector<int>& v, vector<int>& prevSmaller){
+    int n = v.size();
+    stack<int> s ;
+    for ( int i =0 ;i<n;i++){
+        while(!s.empty() && v[s.top()]>=v[i] )
+            s.pop();
+        prevSmaller[i]= s.empty() ? -1 : s.top() ; 
+        s.push(i);
+    }
+}
+
+void nextsmaller(vector<int>& v, vector<int>& nextSmaller){
+    int n = v.size();
+    stack<int> s ;
+    for ( int i =n-1 ;i>=0;i--){
+        while(!s.empty() && v[s.top()]>v[i] )
+            s.pop();
+        nextSmaller[i]= s.empty() ? n : s.top() ; 
+        s.push(i);
+    }
+}
+
+int sumSubarrayMins(vector<int>& v) {
+    // We are trying to find when each element will be min for itself
+    // those subarrays will be the one which are all larger than the curr element 
+//	that means all elements in that subarray just before an element which is just smaller than the curr element
+// And to find that we used the above knowledge of finding next smaller and preev smaller
+    int n = v.size();
+    vector<int> prevSmaller (n,0);    
+    vector<int> nextSmaller (n,0);
+    prevsmaller(v,prevSmaller);
+    nextsmaller(v,nextSmaller);
+    // cout<<prevSmaller<<endl<<nextSmaller<<endl;
+    int ans = 0;
+    // so how do u combine these 2 cases ? 
+    // take one case multiply it with another 
+    for ( int i =0 ; i<n;i++){
+    	// for those cases on left side and for those cases on right side 
+    	// we need also those cases which kind includes both of sides
+    	// so for each left side take right side
+    	// basically left side * right side
+        ans=(ans+(v[i]*((long long)(i-prevSmaller[i])*(nextSmaller[i]-i)))%m)%m;
+    }
+    return ans;
+}
+
+int largestRectangleArea(){
+	int n ;
+	cin>>n;
+	vi v (n,0);
+	cin>>v;
+    stack<int> s ;
+    int ans=0 ;
+    for ( int i =0 ;i<n ;i++){
+        while(!s.empty() && v[s.top()]>v[i]){
+            int top = s.top();
+            s.pop();
+            if(s.empty()){
+                ans=max(ans,(i)*(v[top]));
+            }else{
+                ans=max(ans,(i-s.top()-1)*(v[top]));
+            }
+        }
+        s.push(i);
+    }
+    while(!s.empty()){
+        int top = s.top();
+        s.pop();
+        if(s.empty()){
+            ans=max(ans,(n)*(v[top]));
+        }else{
+            ans=max(ans,(n-s.top()-1)*(v[top]));
+        }
+    }
+    return ans;
+}
+
+void solve(){
+	largestRectangleArea();
 }
 
 int main(){

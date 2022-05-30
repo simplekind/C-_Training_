@@ -43,12 +43,117 @@ const int m = 1000000007;
 // A common misconception to clear is that using DP doesnt mean that we are using array all the tim3
 // DP basically means to use prev result to calculate next result , 
 // Its upto you how you store the result .
-// 3 diff ways :-
-
 // 1. Use a var to keep only the reqd max/min value ( kadane's algo) 
 // 2. A 1-D/2-D array to keep track of stored values for particular soln of 1-D /2-Darray / memoization
 // 3. A 2-D array for same  										 / TABULATION 
-
+//
+//
+// Kadanes algo Dp appr on how to think through the ice
+//
+// Thinking by DP approach :
+// So basically what we would have done in a rec appr.
+// 		0,1,2
+//
+//		       0
+//			     \
+//				0 , 1
+//			/			\
+//		  1					0,1,2
+//		/   \				/
+//			1,2			  1,2
+//		   /   \		/	 \
+// ...
+//
+// So we were basically adding an element to list in last by moving to right and removing from first by moving to left,
+// thus giving us all subarrays
+// 
+// Here length (bascially index) and sum are changing in rec tree, so we will be making it as dp array,
+// by memozing like using prev calc sum and adding ele to it , 
+// if its becoming -ve then we will add 0 else we will add sum to it
+// our ans will be max in dp array
+//
+// basically like a bottom down approach :-
+// To understand why 0 see,
+// 5,-2,6,1,-11,8																 DP
+//
+//																				 7
+//							5
+//								\												 2
+//									-2
+//										\										 4
+//											6
+//												\								-2
+//													1
+//														\						-3
+//															-11
+//																\ 				 8
+//																	8		
+//
+// Ans obvio is not 7 but 10, so why it happened coz when -ve sum occured (not -ve ele) we are considereing it but it is only dec
+// the sum of subarr , if not understandble think it like this
+// if there are -ve ele our ans would by whole subarray
+// but now if there is 1 -ve ele 
+// our ans will still be whole subarr
+// only if sum is not becoming -ve, 
+// if it is our ans will be till our sum is +ve
+// thats our only breakpoint and so we will be starting from sum = 0 after that and not consider that any sum before with that elem
+//
+// So our new rec tree is:
+// 5,-2,6,1,-11,8																 DP
+//
+//																				 10
+//							5
+//								\												 5
+//									-2
+//										\										 7
+//											6
+//												\								 1
+//													1							___
+//														\					   | 0 |	---> see now we are taking it 0 not -3
+//															-11
+//																\ 				 8
+//																	8		
+//
+// So our final ans is 10 !
+//		
+//				opt(i) = max(opt(i+1),0) + arr[i]
+//
+// We will now write it in iter appr.
+//
+// 5 -2 6 1 -11 8
+// 
+// 				8
+// 			 0  8
+// 		  1  0  8
+// 		7 1  0  8
+// 	  5 7 1  0  8
+// 10 5 7 1  0  8
+//
+// our ans will be max ele in dp arr 
+//
+// we can also convert it to top-down appr just by rev our appr
+//
+//				opt(i) = max(opt(i-1),0) + arr[i]
+//
+// But since we only need prev elem and don't need some other prev other elem in dp arr
+// we infact don't need arr but just use only 1 var to store the max res
+//
+// Thus the DP appr.
+//
+// O(n)
+//
+int kadanes (int a[], int n){
+	// if whole array is +ve, then the whole array is maxsum subarray
+	// our array will have break point only if we have a -ve int
+	int sum =0,res=_INF;
+	fli(i,0,n){         
+		sum +=a[i] ;       // calculating all sums from next ele of break point
+		res = max(res,sum ) ; // storing the max sum
+		sum = max(sum,0) ;    //break point 
+	}
+	return res;
+}
+//
 // DP -> coin 
 // Coin prob 
 // Rec approach 
